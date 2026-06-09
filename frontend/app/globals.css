@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ============================================
+   INTERPASS DESIGN SYSTEM
+   Tailwind v4: custom tokens live here via @theme
+   ============================================ */
+
+@theme inline {
+  /* Brand color palette — cybernetic deep indigo / cobalt */
+  --color-brand-50:  #f0f4ff;
+  --color-brand-100: #dbe4ff;
+  --color-brand-200: #bac8ff;
+  --color-brand-300: #91a7ff;
+  --color-brand-400: #748ffc;
+  --color-brand-500: #00d8ff;   /* Primary AI neon cyan */
+  --color-brand-600: #00b4d8;
+  --color-brand-700: #0077b6;
+  --color-brand-800: #03045e;
+  --color-brand-900: #020122;
+
+  /* Surface colors (Titanium/Matte Steel mid-tone design) */
+  --color-surface-base:    #8291a1;   /* matte steel gray */
+  --color-surface-raised:  #9fb0c0;   /* brushed aluminum */
+  --color-surface-overlay: rgba(241, 245, 249, 0.85); /* frosted tech glass */
+  --color-surface-border:  #334155;   /* deep slate borders for grid contrast */
+  --color-surface-subtle:  #64748b;   /* mid-dark slate */
+
+  /* Accent — electric cyan & matrix green for robotic highlights */
+  --color-accent-400: #00f0ff;   /* high-voltage cyan */
+  --color-accent-500: #00d8ff;
+  --color-accent-600: #0077b6;
+
+  /* Semantic */
+  --color-success: #00ff66;   /* matrix phosphor green */
+  --color-warning: #ffb000;   /* warn hazard yellow */
+  --color-danger:  #ff3b30;   /* alert red */
+
+  /* Text (high contrast readability over steel background) */
+  --color-text-primary:   #090d16;   /* carbon dark */
+  --color-text-secondary: #1e293b;   /* dark slate */
+  --color-text-muted:     #475569;   /* mid-slate */
+
+  /* Typography (Monospace fonts for robotic terminals) */
+  --font-sans: var(--font-sans), "Space Mono", monospace;
+  --font-display: var(--font-display), "Share Tech Mono", monospace;
+  --font-mono: "Space Mono", monospace;
+
+  /* Border radius (sharp tech corners) */
+  --radius-card: 0.75rem;
+  --radius-btn:  0.25rem;
+
+  /* Shadows (glow borders for active holographic states) */
+  --shadow-glow-brand: 0 0 15px rgba(0, 216, 255, 0.45);
+  --shadow-glow-accent: 0 0 15px rgba(0, 255, 102, 0.35);
+
+  /* Animations */
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-pulse-slow: pulse 3s ease-in-out infinite;
+}
+
+/* ============================================
+   KEYFRAMES
+   ============================================ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotateY(-8deg) rotateX(4deg); }
+  50%       { transform: translateY(-8px) rotateY(-6deg) rotateX(6deg); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface-base); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-400); }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Glassmorphism card for light mode */
+.glass-card {
+  background: rgba(226, 232, 240, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-surface-border);
+  box-shadow: 4px 4px 0px rgba(9, 13, 22, 0.15);
+  border-radius: var(--radius-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* SaaS visual card for light mode */
+.visual-card {
+  background: linear-gradient(135deg, rgba(226, 232, 240, 0.95) 0%, rgba(203, 213, 225, 0.8) 100%);
+  border: 2px solid var(--color-surface-border);
+  border-radius: var(--radius-card);
+  box-shadow: 4px 4px 0px var(--color-surface-border);
+  transition: all 0.2s ease;
+}
+
+.visual-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-surface-border);
+  border-color: var(--color-accent-500);
+}
+
+/* Gradient text */
+.gradient-text {
+  color: var(--color-text-primary);
+  text-shadow: 0 0 8px rgba(0, 216, 255, 0.2);
+}
+
+/* Shimmer text animation */
+.shimmer-text {
+  color: var(--color-text-primary);
+}
+
+/* Grid glow background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(9, 13, 22, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(9, 13, 22, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Primary button (retro tech style) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-text-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  box-shadow: 3px 3px 0px rgba(9, 13, 22, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-400);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--color-text-primary);
+}
+
+.btn-primary:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0px var(--color-text-primary);
+}
+
+/* Ghost button (secondary tech style) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-surface-border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-text-primary);
+  background: rgba(9, 13, 22, 0.05);
+}
+
+/* Form input */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid var(--color-surface-border);
+  border-radius: var(--radius-btn);
+  color: var(--color-text-primary);
+  font-size: 0.9375rem;
+  font-family: var(--font-mono);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-accent-500);
+  box-shadow: 0 0 0 3px rgba(0, 216, 255, 0.2);
+}
+
+/* Select input */
+.form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid var(--color-surface-border);
+  border-radius: var(--radius-btn);
+  color: var(--color-text-primary);
+  font-size: 0.9375rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230f172a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.form-select:focus {
+  border-color: var(--color-accent-500);
+  box-shadow: 0 0 0 3px rgba(0, 216, 255, 0.2);
+}
+
+/* CRT scanlines effect */
+.scanlines-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.1) 50%
+  ), linear-gradient(
+    90deg, 
+    rgba(255, 0, 0, 0.03), 
+    rgba(0, 255, 0, 0.01), 
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Circular scan animation on SVGs */
+.scan-line-svg {
+  animation: scanline 4s linear infinite;
+}
+

@@ -1,0 +1,20 @@
+# Python dependencies for InterPass backend
+# Using uv for fast, reproducible installs
+
+# Web framework
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+
+# LangGraph + LangChain ecosystem
+# langgraph is the graph orchestration library
+# langchain-openai wraps the OpenAI API in LangChain's interface
+langgraph==0.2.60
+langchain-openai==0.2.14
+langchain-core==0.3.28
+
+# OpenAI SDK (used directly by langchain-openai)
+openai==1.58.1
+
+# Utilities
+python-dotenv==1.0.1    # Load .env files (for API keys)
+pydantic==2.10.3        # Data validation — FastAPI uses this heavily
