@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#0077b6" />
+    </linearGradient>
+    <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff66" />
+      <stop offset="100%" stop-color="#00b4d8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sleek modern speech bubble outline -->
+  <path d="M 20 20 H 80 C 85.5 20, 90 24.5, 90 30 V 65 C 90 70.5, 85.5 75, 80 75 H 42 L 25 88 V 75 H 20 C 14.5 75, 10 70.5, 10 65 V 30 C 10 24.5, 14.5 20, 20 20 Z" 
+        stroke="url(#bubbleGrad)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+  
+  <!-- A bold, simple checkmark in the center -->
+  <path d="M 35 48 L 47 60 L 68 35" 
+        stroke="url(#checkGrad)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

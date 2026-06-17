@@ -208,7 +208,7 @@ export default function ReportDashboard({ session, messages, rawFeedback }: Repo
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-5xl mx-auto w-full border-b border-[var(--color-surface-border)] bg-[var(--color-surface-raised)]/35 backdrop-blur-md">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
+          <img src="/logo.svg" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
           <span className="text-lg font-black tracking-tight font-display">InterPass</span>
         </Link>
         <span className="text-xs font-mono font-black uppercase tracking-widest text-[var(--color-text-muted)]">

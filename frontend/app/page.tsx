@@ -226,7 +226,7 @@ export default function HomePage() {
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-8 md:px-12 max-w-[1400px] mx-auto">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg border-2 border-slate-900 bg-slate-950 shadow-md" />
+          <img src="/logo.svg" alt="Logo" className="w-10 h-10 object-contain rounded-lg border-2 border-slate-900 bg-slate-950 shadow-md" />
           <span className="text-2xl font-black text-slate-950 tracking-tight font-display">InterPass</span>
         </div>
 
@@ -611,7 +611,7 @@ export default function HomePage() {
               InterPass is built completely in the open. We invite developers, designers, and creators to help improve our system, suggest updates, and contribute on GitHub.
             </p>
             <a
-              href="https://github.com/interpass/interpass"
+              href="https://github.com/Femscode/interpass.git"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary py-4 px-10"
@@ -626,7 +626,7 @@ export default function HomePage() {
       <footer className="relative z-10 bg-[var(--color-surface-raised)] py-12 px-6 md:px-12 border-t-2 border-slate-900">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
+            <img src="/logo.svg" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
             <span className="text-lg font-bold text-slate-950 tracking-tight font-display">InterPass</span>
           </div>
           <p className="text-sm font-bold text-slate-900">

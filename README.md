@@ -51,7 +51,7 @@ The backend is built with FastAPI and runs the LangGraph interview orchestration
 
 3. **Install Dependencies & Start Server:**
 
-   We recommend using [uv](https://github.com/astral-sh/uv) for fast, reliable Python environments.
+   I recommend using [uv](https://github.com/astral-sh/uv) for fast, reliable Python environments.
    
    * **Using `uv` (Recommended):**
      ```bash

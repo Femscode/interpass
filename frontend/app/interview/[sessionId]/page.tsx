@@ -71,7 +71,7 @@ export default async function InterviewPage({ params, searchParams }: PageProps)
           href="/"
           className="pointer-events-auto flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity"
         >
-          <img src="/logo.png" alt="Logo" className="w-6 h-6 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
+          <img src="/logo.svg" alt="Logo" className="w-6 h-6 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
           <span className="text-sm font-bold text-[var(--color-text-primary)]">InterPass</span>
         </Link>
 

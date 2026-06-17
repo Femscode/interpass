@@ -110,7 +110,7 @@ export default function SetupPage() {
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-5xl mx-auto w-full">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
+          <img src="/logo.svg" alt="Logo" className="w-8 h-8 object-contain rounded border border-slate-900 bg-slate-950 shadow-sm" />
           <span className="text-lg font-black text-slate-950 tracking-tight font-display">InterPass</span>
         </Link>
         <Link href="/" className="text-sm font-bold text-slate-900 hover:text-slate-950 transition-colors uppercase tracking-wider">
