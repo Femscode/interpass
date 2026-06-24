@@ -132,3 +132,42 @@ def get_messages(session_id: str) -> list[dict]:
         return [dict(row) for row in rows]
     finally:
         conn.close()
+
+
+def create_session(session_id: str, company: str, role: str, level: str, interview_type: str, max_questions: int) -> None:
+    """Inserts a new session record into the SQLite database."""
+    import time
+    conn = get_connection()
+    now = int(time.time() * 1000)
+    try:
+        conn.execute(
+            """INSERT INTO sessions (id, company, role, level, interview_type, status, created_at, updated_at, max_questions)
+               VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?)""",
+            (session_id, company, role, level, interview_type, now, now, max_questions),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def get_all_sessions() -> list[dict]:
+    """Lists up to 50 sessions ordered by creation date."""
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            "SELECT * FROM sessions ORDER BY created_at DESC LIMIT 50"
+        ).fetchall()
+        return [dict(row) for row in rows]
+    finally:
+        conn.close()
+
+
+def delete_session(session_id: str) -> None:
+    """Deletes a session and its associated messages from the database."""
+    conn = get_connection()
+    try:
+        conn.execute("DELETE FROM messages WHERE session_id = ?", (session_id,))
+        conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
+        conn.commit()
+    finally:
+        conn.close()

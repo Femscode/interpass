@@ -48,7 +48,16 @@ logger = logging.getLogger("interpass_backend")
 load_dotenv()
 
 from graph.interview_graph import interview_graph
-from db.sqlite_store import get_session, update_session_status, save_message, get_messages, init_db
+from db.sqlite_store import (
+    get_session,
+    update_session_status,
+    save_message,
+    get_messages,
+    init_db,
+    create_session,
+    get_all_sessions,
+    delete_session,
+)
 
 
 # Lifespan context manager for startup/shutdown tasks
@@ -71,6 +80,14 @@ async def lifespan(app: FastAPI):
 # These define what JSON shape the API accepts and returns.
 # FastAPI validates incoming requests against these — wrong shape = 422 error.
 # ─────────────────────────────────────────────────────────────────────────────
+
+class CreateSessionRequest(BaseModel):
+    company: str
+    role: str
+    level: str
+    interview_type: str
+    max_questions: int = 5
+
 
 class StartInterviewRequest(BaseModel):
     session_id: str
@@ -375,14 +392,80 @@ async def respond_to_interview(request: RespondRequest):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# UTILITY ENDPOINTS
+# UTILITY & SESSION ENDPOINTS
 # ─────────────────────────────────────────────────────────────────────────────
+
+@app.post("/sessions")
+async def api_create_session(request: CreateSessionRequest):
+    """Creates a new interview session and returns its ID."""
+    import uuid
+    session_id = str(uuid.uuid4())
+    logger.info("Creating new session %s for role %s at %s", session_id, request.role, request.company)
+    try:
+        create_session(
+            session_id=session_id,
+            company=request.company,
+            role=request.role,
+            level=request.level,
+            interview_type=request.interview_type,
+            max_questions=request.max_questions
+        )
+        return {"sessionId": session_id}
+    except Exception as e:
+        logger.exception("Failed to create session in SQLite store")
+        raise HTTPException(status_code=500, detail=f"Database error during session creation: {str(e)}")
+
+
+@app.get("/sessions")
+async def api_get_all_sessions():
+    """Returns a list of all historical sessions."""
+    logger.info("Listing all sessions")
+    try:
+        sessions = get_all_sessions()
+        return {"sessions": sessions}
+    except Exception as e:
+        logger.exception("Failed to list sessions from SQLite store")
+        raise HTTPException(status_code=500, detail=f"Database error during session list: {str(e)}")
+
+
+@app.get("/sessions/{session_id}")
+async def api_get_session(session_id: str):
+    """Retrieves session details by session_id."""
+    logger.info("Retrieving details for session %s", session_id)
+    try:
+        session = get_session(session_id)
+    except Exception as e:
+        logger.exception("Failed to fetch session %s from SQLite store", session_id)
+        raise HTTPException(status_code=500, detail=f"Database error during session fetch: {str(e)}")
+
+    if not session:
+        logger.warning("Session %s not found", session_id)
+        raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+    return session
+
+
+@app.delete("/sessions/{session_id}")
+async def api_delete_session(session_id: str):
+    """Deletes a session and all its messages."""
+    logger.info("Deleting session %s", session_id)
+    try:
+        delete_session(session_id)
+        return {"success": True}
+    except Exception as e:
+        logger.exception("Failed to delete session %s from SQLite store", session_id)
+        raise HTTPException(status_code=500, detail=f"Database error during session deletion: {str(e)}")
+
 
 @app.get("/interview/{session_id}/messages")
 async def get_interview_messages(session_id: str):
     """Returns the full message transcript for a session."""
-    messages = get_messages(session_id)
-    return {"session_id": session_id, "messages": messages}
+    logger.info("Fetching message transcript for session %s", session_id)
+    try:
+        messages = get_messages(session_id)
+        return {"session_id": session_id, "messages": messages}
+    except Exception as e:
+        logger.exception("Failed to load message transcript for session %s", session_id)
+        raise HTTPException(status_code=500, detail=f"Database error during message fetch: {str(e)}")
 
 
 @app.get("/health")
