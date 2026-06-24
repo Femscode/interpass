@@ -649,75 +649,77 @@ export default function ChatInterface({ session, maxQuestions = 5, initialMode =
       `}</style>
 
       {/* ── HEADER ── */}
-      <div className="shrink-0 glass-card rounded-none border-x-0 border-t-0 px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
+      <div className="shrink-0 glass-card rounded-none border-x-0 border-t-0 px-4 sm:px-6 pb-3 sm:pb-4 pt-14 sm:pt-4">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <div>
-            <h1 className="text-base font-bold text-[var(--color-text-primary)] leading-tight">
+            <h1 className="text-sm sm:text-base font-bold text-[var(--color-text-primary)] leading-tight">
               {session.role}
               <span className="text-[var(--color-text-muted)] font-normal"> at </span>
               {session.company}
             </h1>
-            <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
+            <p className="text-[10px] sm:text-xs text-[var(--color-text-muted)] mt-0.5">
               {levelLabels[session.level]} · {typeLabels[session.interview_type]} Interview
             </p>
           </div>
 
-          {/* Mode Switcher */}
-          {status !== "complete" && status !== "error" && (
-            <div className="flex bg-[var(--color-surface-subtle)] p-0.5 rounded-lg border border-[var(--color-surface-border)] shrink-0">
-              <button
-                onClick={() => handleModeChange("text")}
-                className={`px-3 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1 ${
-                  mode === "text"
-                    ? "bg-[var(--color-brand-600)] text-white shadow-sm"
-                    : "text-[var(--color-text-secondary)] hover:text-[var(--color-brand-500)]"
-                }`}
-              >
-                ⌨️ Text
-              </button>
-              <button
-                onClick={() => handleModeChange("voice")}
-                className={`px-3 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1 ${
-                  mode === "voice"
-                    ? "bg-[var(--color-brand-600)] text-white shadow-sm"
-                    : "text-[var(--color-text-secondary)] hover:text-[var(--color-brand-500)]"
-                }`}
-              >
-                🎙️ Voice
-              </button>
-            </div>
-          )}
-
-          {/* Progress indicator */}
-          {status !== "complete" && status !== "error" && (
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs text-[var(--color-text-muted)]">Question</p>
-                <p className="text-sm font-bold text-[var(--color-text-primary)]">
-                  {questionNumber} <span className="text-[var(--color-text-muted)] font-normal">/ {maxQuestions}</span>
-                </p>
+          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
+            {/* Mode Switcher */}
+            {status !== "complete" && status !== "error" && (
+              <div className="flex bg-[var(--color-surface-subtle)] p-0.5 rounded-lg border border-[var(--color-surface-border)] shrink-0">
+                <button
+                  onClick={() => handleModeChange("text")}
+                  className={`px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold rounded-md transition-all flex items-center gap-1 ${
+                    mode === "text"
+                      ? "bg-[var(--color-brand-600)] text-white shadow-sm"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-brand-500)]"
+                  }`}
+                >
+                  ⌨️ Text
+                </button>
+                <button
+                  onClick={() => handleModeChange("voice")}
+                  className={`px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold rounded-md transition-all flex items-center gap-1 ${
+                    mode === "voice"
+                      ? "bg-[var(--color-brand-600)] text-white shadow-sm"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-brand-500)]"
+                  }`}
+                >
+                  🎙️ Voice
+                </button>
               </div>
-              {/* Progress bar */}
-              <div className="w-20 sm:w-24 h-1.5 bg-[var(--color-surface-subtle)] rounded-full overflow-hidden shrink-0">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{
-                    width: `${(questionNumber / maxQuestions) * 100}%`,
-                    background: "linear-gradient(90deg, var(--color-brand-500), var(--color-accent-500))",
-                  }}
-                />
-              </div>
-            </div>
-          )}
+            )}
 
-          {status === "complete" && (
-            <span
-              className="text-xs px-3 py-1 rounded-full border font-semibold"
-              style={{ borderColor: "var(--color-success)", color: "var(--color-success)" }}
-            >
-              ✓ Complete
-            </span>
-          )}
+            {/* Progress indicator */}
+            {status !== "complete" && status !== "error" && (
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="text-right">
+                  <p className="text-[9px] sm:text-xs text-[var(--color-text-muted)] leading-none">Question</p>
+                  <p className="text-xs sm:text-sm font-bold text-[var(--color-text-primary)] mt-0.5">
+                    {questionNumber} <span className="text-[var(--color-text-muted)] font-normal">/ {maxQuestions}</span>
+                  </p>
+                </div>
+                {/* Progress bar */}
+                <div className="w-16 sm:w-24 h-1.5 bg-[var(--color-surface-subtle)] rounded-full overflow-hidden shrink-0">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${(questionNumber / maxQuestions) * 100}%`,
+                      background: "linear-gradient(90deg, var(--color-brand-500), var(--color-accent-500))",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {status === "complete" && (
+              <span
+                className="text-[10px] sm:text-xs px-2.5 sm:px-3 py-1 rounded-full border font-semibold"
+                style={{ borderColor: "var(--color-success)", color: "var(--color-success)" }}
+              >
+                ✓ Complete
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -779,24 +781,24 @@ export default function ChatInterface({ session, maxQuestions = 5, initialMode =
 
       {/* ── IMMERSIVE VOICE STUDIO VIEW ── */}
       {mode === "voice" && status !== "complete" && (
-        <div className="flex-1 flex flex-col md:flex-row gap-6 p-6 overflow-hidden max-w-6xl w-full mx-auto animate-fade-up">
+        <div className="flex-1 flex flex-col md:flex-row gap-6 p-4 sm:p-6 overflow-y-auto md:overflow-hidden max-w-6xl w-full mx-auto animate-fade-up">
           {/* Left panel: Animated Avatar & Live Question */}
-          <div className="flex-1 flex flex-col items-center justify-center glass-card p-8 text-center space-y-6 relative overflow-hidden border border-[var(--color-surface-border)] shadow-md">
+          <div className="flex-none md:flex-1 flex flex-col items-center justify-center glass-card p-5 sm:p-8 text-center space-y-4 sm:space-y-6 relative overflow-hidden border border-[var(--color-surface-border)] shadow-md w-full">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-brand-500)] to-[var(--color-accent-400)]" />
             
             {/* Holographic Interactive Orb */}
-            <div className="relative w-48 h-48 flex items-center justify-center">
+            <div className="relative w-36 h-36 md:w-48 md:h-48 flex items-center justify-center">
               {/* Sonar pulses for listening */}
               {isListening && (
                 <>
-                  <div className="absolute w-40 h-40 rounded-full bg-[var(--color-brand-400)] opacity-20 animate-ping" />
-                  <div className="absolute w-48 h-48 rounded-full bg-[var(--color-accent-400)] opacity-10 sonar-ring" />
+                  <div className="absolute w-28 h-28 md:w-40 md:h-40 rounded-full bg-[var(--color-brand-400)] opacity-20 animate-ping" />
+                  <div className="absolute w-36 h-36 md:w-48 md:h-48 rounded-full bg-[var(--color-accent-400)] opacity-10 sonar-ring" />
                 </>
               )}
               
               {/* Dynamic visual orb container */}
               <div 
-                className={`w-36 h-36 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 shadow-xl ${
+                className={`w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 shadow-xl ${
                   status === "loading"
                     ? "bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 animate-spin"
                     : isListening
@@ -812,7 +814,7 @@ export default function ChatInterface({ session, maxQuestions = 5, initialMode =
                   <div className="relative w-full h-full flex items-center justify-center">
                     
                     {/* Glowing center orb */}
-                    <div className={`w-12 h-12 rounded-full transition-all duration-500 ${
+                    <div className={`w-8 h-8 md:w-12 md:h-12 rounded-full transition-all duration-500 ${
                       status === "loading"
                         ? "bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.8)] scale-90 animate-pulse"
                         : isListening
@@ -821,16 +823,16 @@ export default function ChatInterface({ session, maxQuestions = 5, initialMode =
                     }`} />
                     
                     {/* Floating virtual orbits */}
-                    <div className="absolute border border-dashed border-[var(--color-brand-500)]/30 rounded-full w-24 h-24 animate-[spin_12s_linear_infinite]" />
-                    <div className="absolute border border-dotted border-[var(--color-success)]/30 rounded-full w-28 h-28 animate-[spin_20s_linear_infinite_reverse]" />
+                    <div className="absolute border border-dashed border-[var(--color-brand-500)]/30 rounded-full w-16 h-16 md:w-24 md:h-24 animate-[spin_12s_linear_infinite]" />
+                    <div className="absolute border border-dotted border-[var(--color-success)]/30 rounded-full w-20 h-20 md:w-28 md:h-28 animate-[spin_20s_linear_infinite_reverse]" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* AI Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-[var(--color-surface-border)] bg-[var(--color-surface-raised)]/50 text-xs font-mono font-semibold shadow-sm">
-              <span className={`w-2.5 h-2.5 rounded-full ${
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-[var(--color-surface-border)] bg-[var(--color-surface-raised)]/50 text-[10px] sm:text-xs font-mono font-semibold shadow-sm">
+              <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${
                 status === "loading"
                   ? "bg-purple-500 animate-pulse"
                   : isListening
@@ -841,16 +843,16 @@ export default function ChatInterface({ session, maxQuestions = 5, initialMode =
             </div>
 
             {/* AI Question display */}
-            <div className="w-full max-w-xl space-y-2">
-              <h3 className="text-xs uppercase tracking-wider font-bold text-[var(--color-text-muted)] font-display">[ Current Question ]</h3>
-              <p className="text-lg font-bold text-[var(--color-text-primary)] leading-relaxed font-display px-4">
+            <div className="w-full max-w-xl space-y-1 sm:space-y-2">
+              <h3 className="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-[var(--color-text-muted)] font-display">[ Current Question ]</h3>
+              <p className="text-sm sm:text-lg font-bold text-[var(--color-text-primary)] leading-relaxed font-display px-2 sm:px-4">
                 {lastAssistantMessage?.content || "Getting ready..."}
               </p>
             </div>
           </div>
 
           {/* Right panel: Response Draft, Speech controls */}
-          <div className="w-full md:w-[450px] flex flex-col gap-4">
+          <div className="w-full md:w-[450px] flex flex-col gap-4 shrink-0">
             
             {/* Draft response area */}
             <div className="glass-card p-6 flex-1 flex flex-col justify-between space-y-4 border border-[var(--color-surface-border)] shadow-md">
