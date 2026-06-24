@@ -18,9 +18,51 @@ import sqlite3
 import os
 from pathlib import Path
 
-# The SQLite file is one level up from the backend directory
-# This is the SAME file that Next.js reads/writes
-DB_PATH = Path(__file__).parent.parent.parent / "frontend" / "interpass.db"
+# The SQLite file path can be configured via environment variable DATABASE_PATH
+# Default is one level up from the backend directory, pointing to the frontend DB file
+DB_PATH_ENV = os.getenv("DATABASE_PATH")
+if DB_PATH_ENV:
+    DB_PATH = Path(DB_PATH_ENV)
+else:
+    DB_PATH = Path(__file__).parent.parent.parent / "frontend" / "interpass.db"
+
+# Database schema for auto-initialization
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS sessions (
+    id            TEXT PRIMARY KEY,
+    company       TEXT NOT NULL,
+    role          TEXT NOT NULL,
+    level         TEXT NOT NULL,
+    interview_type TEXT NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'pending',
+    created_at    INTEGER NOT NULL,
+    updated_at    INTEGER NOT NULL,
+    max_questions INTEGER NOT NULL DEFAULT 5
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id TEXT NOT NULL REFERENCES sessions(id),
+    role       TEXT NOT NULL CHECK(role IN ('assistant', 'user')),
+    content    TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+);
+"""
+
+
+def init_db() -> None:
+    """
+    Initialises the database file and tables if they do not exist.
+    """
+    # Ensure the parent directory exists
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    
+    conn = get_connection()
+    try:
+        conn.executescript(SCHEMA)
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def get_connection() -> sqlite3.Connection:
@@ -28,8 +70,9 @@ def get_connection() -> sqlite3.Connection:
     Opens a connection to the shared SQLite database.
     row_factory = sqlite3.Row lets us access columns by name (row["id"])
     instead of index (row[0]) — much more readable.
+    timeout=30.0 helps avoid "database is locked" operational errors under concurrent load.
     """
-    conn = sqlite3.connect(str(DB_PATH))
+    conn = sqlite3.connect(str(DB_PATH), timeout=30.0)
     conn.row_factory = sqlite3.Row
     return conn
 
