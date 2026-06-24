@@ -73,9 +73,12 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("[POST /api/sessions] Error:", error);
 
-    // 500 Internal Server Error — something unexpected went wrong on our side
     return NextResponse.json(
-      { error: "Internal server error" },
+      { 
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
@@ -92,7 +95,11 @@ export async function GET() {
   } catch (error) {
     console.error("[GET /api/sessions] Error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { 
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
@@ -120,7 +127,11 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.error("[DELETE /api/sessions] Error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { 
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }

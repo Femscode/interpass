@@ -53,9 +53,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data);
   } catch (err) {
     if (err instanceof Error && err.name === "TimeoutError") {
-      return NextResponse.json({ error: "Request timed out" }, { status: 504 });
+      return NextResponse.json({ 
+        error: "Request timed out",
+        message: err.message,
+        stack: err.stack
+      }, { status: 504 });
     }
     console.error("[proxy /api/interview] Error:", err);
-    return NextResponse.json({ error: "Failed to reach AI backend" }, { status: 502 });
+    return NextResponse.json({ 
+      error: "Failed to reach AI backend",
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined
+    }, { status: 502 });
   }
 }
